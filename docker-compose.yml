@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+        - ./etc:/etc
+    ports: 
+      - 10443:443
+  app:
+    #image: golang:1.16-buster
+    build: ./app
+    volumes:
+      - ./etc:/etc
+      - ./home/isucon:/root/isucon
+    working_dir: /root/isucon/webapp/go
+    entrypoint: tail -f /dev/null
+  db:
+    image: mariadb:10.4
+    volumes:
+      - ./etc:/etc
+    environment: 
+      MARIADB_ROOT_PASSWORD: isucon
+      MARIADB_DATABASE: isucondition
+      MARIADB_USER: isucon
+      MARIADB_PASSWORD: isucon
+
+# volumes:
+  
